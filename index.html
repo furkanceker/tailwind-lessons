@@ -4,6 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {},
+            zIndex: {
+              "-1": "-1",
+            },
+          },
+        },
+        plugins: [],
+      };
+    </script>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
@@ -12,6 +26,32 @@
       referrerpolicy="no-referrer"
     />
     <style type="text/tailwindcss">
+      @layer components {
+        .nav-link {
+          @apply flex items-center h-10 dark:text-gray-300 dark:text-white dark:hover:bg-gray-800 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors;
+        }
+        .nav-link.active {
+          @apply bg-gray-600 text-white;
+        }
+        .modal {
+          @apply fixed inset-0 bg-gray-600 bg-opacity-60 flex items-center justify-center opacity-0 invisible transition-opacity;
+        }
+        .modal.active {
+          @apply visible opacity-100;
+        }
+        .modal-content {
+          @apply bg-white rounded p-10 max-w-full min-w-[400px] dark:bg-gray-900;
+        }
+        .slider-item {
+          @apply border dark:border-gray-700 flex flex-col px-4 py-7 items-center rounded;
+        }
+        .sidebar {
+          @apply w-full bg-white  dark:bg-gray-900 scale-90 lg:scale-100 lg:w-64 flex-shrink-0 transition-all absolute lg:relative inset-0 opacity-0 top-14 lg:top-0 lg:opacity-100 invisible lg:visible border-r p-2 flex flex-col border-gray-100 dark:border-gray-800 divide-solid divide-gray-100 dark:divide-gray-800 divide-y overflow-auto;
+        }
+        .sidebar.active {
+          @apply opacity-100 z-10 visible scale-100;
+        }
+      }
       @layer base {
         @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
         html {
@@ -20,118 +60,122 @@
       }
     </style>
   </head>
-  <body class="bg-white h-full flex flex-col">
+  <body class="bg-white h-full flex flex-col dark:bg-gray-900 dark:text-white">
     <div
-      class="h-16 border-b border-gray-100 w-full flex justify-between items-center px-4"
+      class="h-16 border-b flex-shrink-0 border-gray-100 dark:border-gray-700 w-full flex justify-between items-center px-3 lg:px-5"
     >
+      <button
+        onclick="sidebar()"
+        class="text-gray-600 lg:hidden dark:text-white"
+      >
+        <i class="fa-solid fa-bars"></i>
+      </button>
       <a
         href="#"
-        class="text-2xl font-medium inline-flex items-center text-gray-600"
-        >./prototurk
-        <span class="text-sm text-gray-400 ml-2">v2.5.0</span>
+        class="text-2xl font-medium inline-flex items-center dark:text-white text-gray-600"
+        >./genckodum
+        <span class="text-sm text-gray-400 ml-2 hidden lg:inline">v2.5.0</span>
       </a>
-      <form action="" class="w-1/3">
+      <form action="" class="w-1/3 hidden lg:block">
         <input
           type="text"
           placeholder="Makale Ara."
-          class="w-full bg-gray-100 h-10 px-3 rounded placeholder-gray-500"
+          class="w-full bg-gray-100 h-10 px-3 rounded dark:bg-gray-700 dark:placeholder-gray-300 placeholder-gray-500"
         />
       </form>
       <a
-        href="#"
-        class="bg-gray-600 text-white h-10 inline-flex items-center px-4 rounded"
+        href="javascript:;"
+        onclick="modal('login-modal')"
+        class="bg-gray-600 text-white h-10 inline-flex hidden items-center px-4 rounded"
         >Giriş Yap</a
       >
+      <div class="group relative">
+        <button class="flex items-center w-10 lg:w-40 rounded h-10 text-sm">
+          <img
+            src="https://media.licdn.com/dms/image/D4D35AQHKMW_udiGqrA/profile-framedphoto-shrink_100_100/0/1674598070349?e=1679144400&v=beta&t=EJ8TN55dSIIthMZQDgjvj1II-y0mip1lVgz2-MYVkSc"
+            alt=""
+            class="rounded-full"
+            width="20"
+            height="20"
+          />
+          <span class="hidden lg:inline ml-3">heyfurken</span>
+          <i class="fa-sharp fa-solid fa-caret-down ml-2"></i>
+        </button>
+        <div
+          class="opacity-0 invisible group-focus-within:opacity-100 group-focus-within:mt-1 dark:bg-gray-700 group-focus-within:visible transition-all absolute top-full right-0 w-40 rounded p-1 space-y-1 bg-gray-100"
+        >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded transition-colors dark:hover:bg-gray-500 hover:bg-gray-200"
+            >Profil</a
+          >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded transition-colors dark:hover:bg-gray-500 hover:bg-gray-200"
+            >Profil Düzenle</a
+          >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded transition-colors dark:hover:bg-gray-500 hover:bg-gray-200"
+            >Takipçiler</a
+          >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded transition-colors dark:hover:bg-gray-500 hover:bg-gray-200"
+            >Sorular</a
+          >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded transition-colors dark:hover:bg-gray-500 hover:bg-gray-200"
+            >Cevaplar</a
+          >
+          <a
+            href="#"
+            class="text-sm flex h-7 items-center px-3 rounded text-red-500 transition-colors hover:bg-red-100"
+            >Çıkış Yap</a
+          >
+        </div>
+      </div>
     </div>
-    <main class="flex-auto flex">
-      <aside
-        class="w-64 border-r p-2 flex flex-col border-gray-100 divide-solid divide-gray-100 divide-y"
-      >
-        <nav class="mb-3">
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Ana Sayfa</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Akış</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Keşfet</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Makaleler</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Soru & Cevap</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Ders İstekleri</a
-          >
+    <main class="h-full flex">
+      <aside class="sidebar" id="sidebar">
+        <nav class="mb-3 space-y-1">
+          <a href="#" class="nav-link active">Ana Sayfa</a>
+          <a href="#" class="nav-link">Akış</a>
+          <a href="#" class="nav-link">Keşfet</a>
+          <a href="#" class="nav-link">Makaleler</a>
+          <a href="#" class="nav-link">Soru & Cevap</a>
+          <a href="#" class="nav-link">Ders İstekleri</a>
         </nav>
-        <nav class="mt-3 pt-3">
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >HTML</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >CSS</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Javascript</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >PHP</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >MySQL</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Laravel</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Python</a
-          >
-          <a
-            href="#"
-            class="flex items-center h-10 rounded px-3 text-lg text-gray-600 font-medium hover:bg-gray-100 transition-colors"
-            >Git</a
-          >
+        <nav class="mt-3 pt-3 space-y-1">
+          <a href="#" class="nav-link">HTML</a>
+          <a href="#" class="nav-link">CSS</a>
+          <a href="#" class="nav-link">Javascript</a>
+          <a href="#" class="nav-link">PHP</a>
+          <a href="#" class="nav-link">MySQL</a>
+          <a href="#" class="nav-link">Laravel</a>
+          <a href="#" class="nav-link">Python</a>
+          <a href="#" class="nav-link">Git</a>
         </nav>
         <div class="mt-auto pt-3">
           <button
+            onclick="darkMode()"
             class="bg-gray-800 flex h-10 rounded text-white items-center px-4 text-lg hover:bg-gray-600 transition-colors w-full"
           >
-            <i class="fa-solid fa-moon text-white mr-2"></i>Koyu Mod
+            <span class="hidden dark:inline"
+              ><i class="fa-solid fa-sun text-white mr-2"></i>Açık Mod</span
+            >
+            <span class="inline dark:hidden"
+              ><i class="fa-solid fa-moon text-white mr-2"></i>Koyu Mod</span
+            >
           </button>
         </div>
       </aside>
-      <section class="flex-auto py-6 px-10">
+      <section class="flex-auto py-6 px-5 md:px-10 overflow-auto">
         <div class="mx-auto max-w-screen-xl">
-          <h2 class="text-3xl font-semibold text-gray-600 mb-3 leading-relaxed">
+          <h2
+            class="text-3xl font-semibold text-gray-600 mb-3 leading-relaxed dark:text-white"
+          >
             Kendine değer kat!
           </h2>
           <p>
@@ -139,12 +183,11 @@
             çok dil ve teknolojiye ait derslerle doğru bir başlangıç yapmaya
             hazırsın!
           </p>
-          <div class="grid mt-5 grid-cols-10 gap-7">
-            <div class="col-span-2">
-              <a
-                href="#"
-                class="border flex flex-col px-4 py-7 items-center rounded"
-              >
+          <div
+            class="flex lg:grid overflow-x-auto mt-5 grid-cols-10 gap-3 lg:gap-7 mb-4"
+          >
+            <div class="col-span-5 lg:col-span-2">
+              <a href="#" class="slider-item">
                 <span
                   class="w-24 h-24 mb-4 border border-red-500 rounded-full grid place-items-center relative"
                 >
@@ -162,11 +205,8 @@
                 >
               </a>
             </div>
-            <div class="col-span-2">
-              <a
-                href="#"
-                class="border flex flex-col px-4 py-7 items-center rounded"
-              >
+            <div class="col-span-5 lg:col-span-2">
+              <a href="#" class="slider-item">
                 <span
                   class="w-24 h-24 mb-4 border border-blue-500 rounded-full grid place-items-center relative"
                 >
@@ -184,11 +224,8 @@
                 >
               </a>
             </div>
-            <div class="col-span-2">
-              <a
-                href="#"
-                class="border flex flex-col px-4 py-7 items-center rounded"
-              >
+            <div class="col-span-5 lg:col-span-2">
+              <a href="#" class="slider-item">
                 <span
                   class="w-24 h-24 mb-4 border border-yellow-500 rounded-full grid place-items-center relative"
                 >
@@ -206,11 +243,8 @@
                 >
               </a>
             </div>
-            <div class="col-span-2">
-              <a
-                href="#"
-                class="border flex flex-col px-4 py-7 items-center rounded"
-              >
+            <div class="col-span-5 lg:col-span-2">
+              <a href="#" class="slider-item">
                 <span
                   class="w-24 h-24 mb-4 border border-indigo-500 rounded-full grid place-items-center relative"
                 >
@@ -228,11 +262,8 @@
                 >
               </a>
             </div>
-            <div class="col-span-2">
-              <a
-                href="#"
-                class="border flex flex-col px-4 py-7 items-center rounded"
-              >
+            <div class="col-span-5 lg:col-span-2">
+              <a href="#" class="slider-item">
                 <span
                   class="w-24 h-24 mb-4 border border-teal-600 rounded-full grid place-items-center relative"
                 >
@@ -252,16 +283,66 @@
             </div>
           </div>
 
-          <div class="bg-blue-500 p-7 rounded-lg text-white">
-            <h6>Twitter'da @prototurkcom hesabını takip etmeyi unutma!</h6>
-            <p>
-              Hazırladığımız son videolardan anında haberdar olmak için twitter
-              hesabımızı takip etmeyi unutma!
-            </p>
-            <a href="#">Takip Et</a>
+          <div
+            class="bg-blue-500 p-4 rounded-md text-white flex flex-col lg:flex-row items-center"
+          >
+            <div class="flex-shrink-0 pl-0 lg:pl-2 mb-4 lg:mb-0 w-20">
+              <i
+                style="font-size: 50px"
+                class="fa-brands fa-twitter text-white"
+              ></i>
+            </div>
+            <div>
+              <div>
+                <h6 class="text-xl mb-1">
+                  Twitter'da
+                  <strong class="font-semibold">@genckodum</strong> hesabını
+                  takip etmeyi unutma!
+                </h6>
+                <p>
+                  Hazırladığımız son videolardan anında haberdar olmak için
+                  twitter hesabımızı takip etmeyi unutma!
+                </p>
+                <a
+                  href="#"
+                  class="bg-white h-11 px-5 inline-flex items-center rounded text-black mt-4"
+                  >Takip et</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </main>
+    <div class="modal" id="login-modal">
+      <div class="modal-content">
+        <h3 class="text-2xl mb-4">Giriş Yap</h3>
+        <button
+          onclick="modal('login-modal')"
+          class="bg-gray-600 px-4 inline-flex rounded items-center h-10 text-white"
+        >
+          Kapat
+        </button>
+      </div>
+    </div>
+    <script>
+      if (localStorage.getItem("dark")) {
+        document.documentElement.classList.add("dark");
+      }
+      function darkMode() {
+        document.documentElement.classList.toggle("dark");
+        if (document.documentElement.classList.contains("dark")) {
+          localStorage.setItem("dark", true);
+        } else {
+          localStorage.removeItem("dark");
+        }
+      }
+      function modal(id) {
+        document.getElementById(id).classList.toggle("active");
+      }
+      function sidebar() {
+        document.getElementById("sidebar").classList.toggle("active");
+      }
+    </script>
   </body>
 </html>
